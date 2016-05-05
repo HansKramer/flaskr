@@ -3,5 +3,17 @@
   gather_facts: no
   become: true
   tasks:
-     - name do nothing! 
-       command: /bin/true
+    - name: Copy flaskr to init.d
+      copy:
+        src: /srv/flaskr/init.d/flaskr
+        dest: /etc/rc.d/init.d/flaskr
+    - name: install python flask
+      dnf:
+        name: python-flask
+        state: present
+    - name: fetch source
+      git:
+         repo: https://github.com/HansKramer/flaskr.git
+         dest: /srv
+         accept_hostkey: true
+
